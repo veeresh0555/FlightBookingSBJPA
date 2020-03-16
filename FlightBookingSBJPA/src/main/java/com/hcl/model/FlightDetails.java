@@ -2,6 +2,7 @@ package com.hcl.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "flightdetails")
@@ -30,13 +33,19 @@ public class FlightDetails {
 	 * @JsonFormat(pattern ="yyyy-MM-dd HH:mm:ss") private Timestamp flighttime;
 	 */
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="flttime")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
 	private Date flighttime;
+	
+	/*
+	 * @Column(name="flttime") private String flighttime;
+	 */
 	
 	@Column(name="pairamount")
 	private long paireamt;
 	
-	@OneToOne(mappedBy = "fltid")//fltid
+	@OneToOne(mappedBy = "fltid",cascade = CascadeType.ALL)//fltid
 	private FlightBooking fltbooking;
 
 	public long getFid() {
@@ -78,9 +87,7 @@ public class FlightDetails {
 	public void setSeats(long seats) {
 		this.seats = seats;
 	}
-
 	
-
 	public Date getFlighttime() {
 		return flighttime;
 	}

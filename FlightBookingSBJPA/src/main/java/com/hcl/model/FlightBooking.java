@@ -1,7 +1,6 @@
 package com.hcl.model;
 
-import java.sql.Timestamp;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="flightbooking")
@@ -24,8 +21,16 @@ public class FlightBooking {
 	
 	private String mealstatus;
 	
-	@JsonFormat(pattern ="yyyy-MM-dd HH:mm:ss")//bookingdt
-	private Timestamp bookingdt;
+	/*
+	 * @Column(name="bkgdt")
+	 * 
+	 * @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	 * 
+	 * @Temporal(TemporalType.DATE) private Date bookingdt;
+	 */
+	
+	@Column(name="bkgdt")
+	private String bookingdt;
 	
 	@OneToOne
 	@JoinColumn(name = "flightid")
@@ -63,14 +68,12 @@ public class FlightBooking {
 		this.mealstatus = mealstatus;
 	}
 
-	
-
-	public Timestamp getBookingdt() {
+	public String getBookingdt() {
 		return bookingdt;
 	}
 
 
-	public void setBookingdt(Timestamp bookingdt) {
+	public void setBookingdt(String bookingdt) {
 		this.bookingdt = bookingdt;
 	}
 
